@@ -1,0 +1,25 @@
+{
+  "name": "ippei/quickbrownfox-codeception-helper",
+  "description": "Codeception helper for QuickBrownFox",
+  "version": "1.0",
+  "type": "codeception-helper",
+  "require": {
+    "lapaz/quick-brown-fox": "^0.1.0"
+  },
+  "require-dev": {
+    "codeception/codeception": "^2.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Helper\\": "src/"
+    }
+  },
+  "homepage": "https://unplat.info/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ippei Sumida",
+      "email": "ippey.s@gmail.com"
+    }
+  ]
+}
