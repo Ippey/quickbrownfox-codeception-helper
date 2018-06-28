@@ -23,9 +23,7 @@ class QuickBrownFoxTest extends \Codeception\Test\Unit
         /** @var \Codeception\Lib\ModuleContainer $moduleContainer */
         $moduleContainer = \Codeception\Stub::make(\Codeception\Lib\ModuleContainer::class);
         $this->helper = new \Helper\QuickBrownFox($moduleContainer, $config);
-        $method = new ReflectionMethod(\Helper\QuickBrownFox::class, 'createConnection');
-        $method->setAccessible(true);
-        $method->invoke($this->helper);
+        $this->helper->_initialize();
     }
 
     protected function _after()

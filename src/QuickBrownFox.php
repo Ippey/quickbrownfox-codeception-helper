@@ -5,38 +5,42 @@ namespace Helper;
 
 use Codeception\TestInterface;
 use Lapaz\QuickBrownFox\Database\FixtureSetupSession;
+use Lapaz\QuickBrownFox\Database\SessionManager;
 use Lapaz\QuickBrownFox\FixtureManager;
 
 class QuickBrownFox extends \Codeception\Module
 {
-    /** @var \PDO */
-    protected $connection;
+    /** @var SessionManager */
+    protected $sessionManager;
 
     /** @var FixtureSetupSession */
-    protected $fixtureSession;
+    protected $currentSession;
 
     /**
-     * @param TestInterface $test
+     * @inheritdoc
+     */
+    public function _initialize()
+    {
+        $fixtureManager = new FixtureManager();
+        $connection = new \PDO($this->config['dsn'], $this->config['user'], $this->config['password']);
+
+        // Allow extra initialization via user script here.
+        // if (isset($this->config['initScript']) {
+        //     require $this->config['initScript'];
+        // }
+
+        $this->sessionManager = $fixtureManager->createSessionManager($connection);
+    }
+
+    /**
+     * @inheritdoc
      */
     public function _before(TestInterface $test)
     {
         parent::_before($test);
 
-        $this->createConnection();
-
         // Generate FixtureSession
         $this->newFixtureSession();
-    }
-
-    public function _after(TestInterface $test)
-    {
-        $this->connection = null;
-
-    }
-
-    protected function createConnection()
-    {
-        $this->connection = new \PDO($this->config['dsn'], $this->config['user'], $this->config['password']);
     }
 
     /**
@@ -45,8 +49,7 @@ class QuickBrownFox extends \Codeception\Module
      */
     public function newFixtureSession()
     {
-        $fixtureManager = new FixtureManager();
-        $this->fixtureSession = $fixtureManager->createSessionManager($this->connection)->newSession();
+        $this->currentSession = $this->sessionManager->newSession();
     }
 
     /**
@@ -65,7 +68,7 @@ class QuickBrownFox extends \Codeception\Module
      */
     public function getFixtureSession()
     {
-        return $this->fixtureSession;
+        return $this->currentSession;
     }
 
     /**
@@ -76,7 +79,6 @@ class QuickBrownFox extends \Codeception\Module
      */
     public function setFixtures($table, $fixtures)
     {
-        $session = $this->getFixtureSession();
-        $session->into($table)->load($fixtures);
+        $this->currentSession->into($table)->load($fixtures);
     }
 }
