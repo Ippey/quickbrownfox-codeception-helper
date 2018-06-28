@@ -11,8 +11,10 @@ For example.
 modules:
     enabled: [QuickBrownFoxHelper]
     config:
-        QuickBrownFoxHelper:
-          url: 'mysql://user:password@host/database?charset=utf8'
+        QuickBrownFox:
+          dsn: 'mysql:host=localhost;dbname=test'
+          user: 'user'
+          password: 'password'
 ```
 
 ## Usage

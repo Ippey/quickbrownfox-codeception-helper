@@ -4,14 +4,12 @@ namespace Helper;
 
 
 use Codeception\TestInterface;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
 use Lapaz\QuickBrownFox\Database\FixtureSetupSession;
 use Lapaz\QuickBrownFox\FixtureManager;
 
-class QuickBrownFox extends \Codeception\Module\WebDriver
+class QuickBrownFox extends \Codeception\Module
 {
-    /** @var Connection */
+    /** @var \PDO */
     protected $connection;
 
     /** @var FixtureSetupSession */
@@ -19,25 +17,27 @@ class QuickBrownFox extends \Codeception\Module\WebDriver
 
     /**
      * @param TestInterface $test
-     * @throws DBALException
      */
     public function _before(TestInterface $test)
     {
         parent::_before($test);
 
-        $this->connection = \Doctrine\DBAL\DriverManager::getConnection([
-            'url' => $this->config['url'],
-        ]);
-        $this->connection->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
+        $this->createConnection();
+
         // Generate FixtureSession
         $this->newFixtureSession();
     }
 
     public function _after(TestInterface $test)
     {
-        $this->connection->close();
+        $this->connection = null;
 
         parent::_after($test);
+    }
+
+    protected function createConnection()
+    {
+        $this->connection = new \PDO($this->config['dsn'], $this->config['user'], $this->config['password']);
     }
 
     /**
