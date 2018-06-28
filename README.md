@@ -5,7 +5,7 @@ Codeception Helper for [QuickBrownFox](https://packagist.org/packages/lapaz/quic
 
 ## Installation
 ```$xslt
-composer require ippey/quick-brown-fox-codeception-helper
+composer require ippey/quickbrownfox-codeception-helper
 ```
 ## Configuration
 For example.
