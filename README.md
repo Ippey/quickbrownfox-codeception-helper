@@ -11,7 +11,7 @@ For example.
 modules:
     enabled: [QuickBrownFoxHelper]
     config:
-        QuickBrownFoxHelper:
+        QuickBrownFox:
           dsn: 'mysql:host=localhost;dbname=test'
           user: 'user'
           password: 'password'
