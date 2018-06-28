@@ -11,9 +11,9 @@ composer require ippey/quickbrownfox-codeception-helper
 For example.
 ```yaml
 modules:
-    enabled: [QuickBrownFox]
+    enabled: [\Helper\QuickBrownFox]
     config:
-        QuickBrownFox:
+        \Helper\QuickBrownFox:
           dsn: 'mysql:host=localhost;dbname=test'
           user: 'user'
           password: 'password'
@@ -32,7 +32,7 @@ $this->>tester->setFixtures('table', [
 
 // Using FixtureSetupSession
 $this->tester->newFixtureSession();
-$session = $this->>tester->getFixtureSession();
+$session = $this->tester->getFixtureSession();
 $session->into('table')->load([
     [
         'id' => 1,
