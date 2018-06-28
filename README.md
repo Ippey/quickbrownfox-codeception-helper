@@ -1,6 +1,8 @@
 # QuickBrownFox Codeception Helper
 Codeception Helper for [QuickBrownFox](https://packagist.org/packages/lapaz/quick-brown-fox).
 
+[![CircleCI](https://circleci.com/gh/Ippey/quickbrownfox-codeception-helper.svg?style=svg)](https://circleci.com/gh/Ippey/quickbrownfox-codeception-helper)
+
 ## Installation
 ```$xslt
 composer require ippey/quick-brown-fox-codeception-helper
