@@ -32,7 +32,6 @@ class QuickBrownFox extends \Codeception\Module
     {
         $this->connection = null;
 
-        parent::_after($test);
     }
 
     protected function createConnection()
