@@ -1,0 +1,48 @@
+version: 2
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test-5.6
+      - test-7.0
+      - test-7.1
+      - test-7.2
+
+jobs: # a collection of steps
+  test-5.6: &test-template
+    docker: # run the steps with Docker
+      - image: circleci/php:5.6
+    working_directory: ~/repo # directory where steps will run
+    steps: # a set of executable commands
+      - checkout # special step to check out source code to working directory
+      - run: sudo apt install -y libsqlite3-dev zlib1g-dev
+      - run: sudo docker-php-ext-install zip
+      - run: sudo composer self-update
+      - restore_cache: # special step to restore the dependency cache if `composer.lock` does not change
+          keys:
+            - composer-v1-{{ checksum "composer.lock" }}
+            # fallback to using the latest cache if no exact match is found (See https://circleci.com/docs/2.0/caching/)
+            - composer-v1-
+      - run: composer install -n --prefer-dist
+      - save_cache: # special step to save the dependency cache with the `composer.lock` cache key template
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+      - run: ./vendor/bin/codecept build
+      - run: ./vendor/bin/codecept run
+
+  test-7.0:
+    <<: *test-template
+    docker:
+      - image: circleci/php:7.0
+
+  test-7.1:
+    <<: *test-template
+    docker:
+      - image: circleci/php:7.1
+
+  test-7.2:
+    <<: *test-template
+    docker:
+      - image: circleci/php:7.2
