@@ -3,7 +3,9 @@
 namespace Helper;
 
 
+use Codeception\Exception\ModuleConfigException;
 use Codeception\TestInterface;
+use Doctrine\DBAL\DriverManager;
 use Lapaz\QuickBrownFox\Database\FixtureSetupSession;
 use Lapaz\QuickBrownFox\Database\SessionManager;
 use Lapaz\QuickBrownFox\FixtureManager;
@@ -18,18 +20,26 @@ class QuickBrownFox extends \Codeception\Module
 
     /**
      * @inheritdoc
+     * @throws ModuleConfigException
      */
     public function _initialize()
     {
-        $fixtureManager = new FixtureManager();
-        $connection = new \PDO($this->config['dsn'], $this->config['user'], $this->config['password']);
+        try {
+            $fixtureManager = new FixtureManager();
 
-        // Allow extra initialization via user script here.
-        // if (isset($this->config['initScript']) {
-        //     require $this->config['initScript'];
-        // }
+            $connection = DriverManager::getConnection([
+                'pdo' => new \PDO($this->config['dsn'], $this->config['user'], $this->config['password'])
+            ]);
 
-        $this->sessionManager = $fixtureManager->createSessionManager($connection);
+            // Allow extra initialization via user script here.
+            // if (isset($this->config['initScript']) {
+            //     require $this->config['initScript'];
+            // }
+
+            $this->sessionManager = $fixtureManager->createSessionManager($connection);
+        } catch (\Exception $e) {
+            throw new ModuleConfigException($this, $e->getMessage(), $e);
+        }
     }
 
     /**
@@ -74,11 +84,32 @@ class QuickBrownFox extends \Codeception\Module
     /**
      * Load fixtures to specific table.
      *
-     * @param $table
-     * @param $fixtures
+     * @param string $table
+     * @param array $fixtures
+     * @param callable|string|null $generator
+     * @param int $baseIndex
+     * @return array Primary keys
      */
-    public function setFixtures($table, $fixtures)
+    public function setFixtures($table, $fixtures, $generator = null, $baseIndex = 0)
     {
-        $this->currentSession->into($table)->load($fixtures);
+        $loading = $this->currentSession->into($table);
+        if ($generator) {
+            $loading = $loading->with($generator);
+        }
+        return $loading->load($fixtures, $baseIndex);
+    }
+
+    /**
+     * Generate fixtures and load them to specific table.
+     *
+     * @param string $table
+     * @param int $amount
+     * @param callable|string|null $generator
+     * @param int $baseIndex
+     * @return array Primary keys
+     */
+    public function generateFixtures($table, $amount, $generator, $baseIndex = 0)
+    {
+        return $this->currentSession->into($table)->with($generator)->generate($amount, $baseIndex);
     }
 }

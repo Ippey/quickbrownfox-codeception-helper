@@ -3,10 +3,11 @@
   "description": "Codeception helper for QuickBrownFox",
   "type": "codeception-helper",
   "require": {
-    "lapaz/quick-brown-fox": "^0.1.0"
+    "lapaz/quick-brown-fox": "^0.1.0",
+    "doctrine/dbal": "^2.5",
+    "codeception/codeception": "^2.4"
   },
   "require-dev": {
-    "codeception/codeception": "^2.4"
   },
   "autoload": {
     "psr-4": {
