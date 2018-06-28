@@ -11,7 +11,7 @@ composer require ippey/quick-brown-fox-codeception-helper
 For example.
 ```yaml
 modules:
-    enabled: [QuickBrownFoxHelper]
+    enabled: [QuickBrownFox]
     config:
         QuickBrownFox:
           dsn: 'mysql:host=localhost;dbname=test'
