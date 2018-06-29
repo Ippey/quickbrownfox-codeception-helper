@@ -108,8 +108,12 @@ class QuickBrownFox extends \Codeception\Module
      * @param int $baseIndex
      * @return array Primary keys
      */
-    public function generateFixtures($table, $amount, $generator, $baseIndex = 0)
+    public function generateFixtures($table, $amount, $generator = null, $baseIndex = 0)
     {
-        return $this->currentSession->into($table)->with($generator)->generate($amount, $baseIndex);
+        $loading = $this->currentSession->into($table);
+        if ($generator) {
+            $loading = $loading->with($generator);
+        }
+        return $loading->generate($amount, $baseIndex);
     }
 }

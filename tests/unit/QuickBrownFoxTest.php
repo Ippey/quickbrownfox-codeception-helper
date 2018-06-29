@@ -105,4 +105,12 @@ class QuickBrownFoxTest extends \Codeception\Test\Unit
         $col99 = $this->dbal->executeQuery("SELECT col FROM qbf_test WHERE id=?;", [$pks[99]])->fetchColumn();
         $this->assertEquals(99, $col99);
     }
+
+    public function testGenerateRandomFixture()
+    {
+        $this->helper->generateFixtures('qbf_test', 100);
+
+        $rowCount = $this->dbal->executeQuery("SELECT COUNT(*) FROM qbf_test;")->fetchColumn();
+        $this->assertEquals(100, $rowCount);
+    }
 }
