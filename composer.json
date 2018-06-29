@@ -2,6 +2,7 @@
   "name": "ippey/quickbrownfox-codeception-helper",
   "description": "Codeception helper for QuickBrownFox",
   "type": "codeception-helper",
+  "keywords": ["codeception", "helper", "quickbrownfox"],
   "require": {
     "lapaz/quick-brown-fox": "^0.1.0",
     "doctrine/dbal": "^2.5",
