@@ -1,10 +1,16 @@
 # Codeception Test Suite Configuration
 #
-# Suite for unit or integration tests.
+# Suite for unit (internal) tests.
 
+# Codeception >= 2.3:
 actor: UnitTester
+
+# Codeception 2.2:
+#class_name: UnitTester
+
 modules:
     enabled:
         - Asserts
         - Db
         - \Helper\QuickBrownFox
+        - \Helper\Unit

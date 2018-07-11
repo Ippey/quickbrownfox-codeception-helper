@@ -20,11 +20,11 @@ class DemoCest
 
         $I->expectTo("be filled not-null columns with dummy data");
 
-        $prices = $I->grabColumnFromDatabase('books', 'price');
+        $prices = $I->grabFromDatabase('books', 'price');
         $I->assertNotNull($prices[0]);
         $I->assertNotNull($prices[1]);
 
-        $descriptions = $I->grabColumnFromDatabase('books', 'description');
+        $descriptions = $I->grabFromDatabase('books', 'description');
         $I->assertNotNull($descriptions[0]);
         $I->assertNotNull($descriptions[1]);
 

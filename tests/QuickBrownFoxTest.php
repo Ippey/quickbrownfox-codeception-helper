@@ -1,30 +1,24 @@
 <?php
 
-class QuickBrownFoxTest extends \Codeception\Test\Unit
-{
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+use PHPUnit\Framework\TestCase;
 
+class QuickBrownFoxTest extends TestCase
+{
     /** @var \Helper\QuickBrownFox */
     private $helper;
 
     /** @var \Doctrine\DBAL\Connection */
     private $dbal;
 
-    /**
-     * @throws Exception
-     */
-    protected function _before()
+    protected function setUp()
     {
         $config = [
-            'dsn' => 'sqlite:tests/_data/test.db',
+            'dsn' => 'sqlite:' . __DIR__ . '/_data/test.db',
             'user' => 'testuser',
             'password' => 'testpass',
         ];
-        /** @var \Codeception\Lib\ModuleContainer $moduleContainer */
-        $moduleContainer = \Codeception\Stub::make(\Codeception\Lib\ModuleContainer::class);
+
+        $moduleContainer = $this->createMock(\Codeception\Lib\ModuleContainer::class);
         $this->helper = new \Helper\QuickBrownFox($moduleContainer, $config);
         $this->helper->_initialize();
 
@@ -38,8 +32,7 @@ class QuickBrownFoxTest extends \Codeception\Test\Unit
                 col INTEGER NOT NULL
             );");
 
-        /** @var \Codeception\TestInterface $test */
-        $test = \Codeception\Stub::makeEmpty(\Codeception\TestInterface::class);
+        $test = $this->createMock(\Codeception\TestInterface::class);
         $this->helper->_before($test);
     }
 

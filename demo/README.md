@@ -58,3 +58,11 @@ Time: 167 ms, Memory: 14.00MB
 
 OK (2 tests, 9 assertions)
 ```
+
+If you want to switch to Codeception 2.2:
+
+```
+$ composer install --prefer-lowest
+```
+
+and see `*.yml` comments.

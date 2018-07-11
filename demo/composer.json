@@ -1,6 +1,6 @@
 {
-    "require": {
-        "codeception/codeception": "^2.4",
+    "require-dev": {
+        "codeception/codeception": "^2.2",
         "ippey/quickbrownfox-codeception-helper": "^0.1.0"
     }
 }

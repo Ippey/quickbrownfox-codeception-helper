@@ -5,3 +5,4 @@ composer.lock
 /tests/_data/test.sqlite
 /tests/_data/test.sqlite_snapshot
 /tests/_support/_generated/
+/tests/_output/*
